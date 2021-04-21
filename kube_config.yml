@@ -1,0 +1,11 @@
+- hosts: tag_Name_master_node
+  become: yes
+  remote_user: ec2-user
+  roles:
+    - role: "kube_master_config" 
+
+- hosts: tag_Name_worker_node
+  become: yes
+  remote_user: ec2-user
+  roles:
+    - role: "kube_worker_config"

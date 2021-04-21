@@ -1,0 +1,41 @@
+- hosts: localhost
+  vars_files:
+    - secret.yml
+
+  tasks:
+    - name: "provisioning ec2 instance for master of K8s"    
+      ec2:
+          region: ap-south-1
+          image: ami-0bcf5425cdc1d8a85
+          wait: yes
+          count: 1
+          instance_type: t2.micro
+          vpc_subnet_id: subnet-65747d0d
+          group_id: sg-0a51135d200fca472
+          key_name: master
+          assign_public_ip: yes
+          instance_tags:
+            
+            Name: master_node
+          state: present
+          aws_access_key: "{{access_key}}"
+          aws_secret_key: "{{secret_key}}"
+
+    - name: "provisioning ec2 instance for workernode"    
+      ec2:
+          region: ap-south-1
+          image: ami-0bcf5425cdc1d8a85
+          wait: yes
+          count: 2
+          instance_type: t2.micro
+          vpc_subnet_id: subnet-65747d0d
+          group_id: sg-0a51135d200fca472
+          key_name: master
+          assign_public_ip: yes
+          instance_tags:
+            Name: worker_node
+          state: present
+          aws_access_key: "{{access_key}}"
+          aws_secret_key: "{{secret_key}}"
+
+      
